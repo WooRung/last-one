@@ -11,35 +11,22 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SignupImport } from './routes/signup'
-import { Route as ResetPasswordImport } from './routes/reset-password'
-import { Route as RecoverPasswordImport } from './routes/recover-password'
-import { Route as LoginImport } from './routes/login'
+import { Route as DashboardImport } from './routes/dashboard'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as LayoutIndexImport } from './routes/_layout/index'
-import { Route as LayoutSettingsImport } from './routes/_layout/settings'
-import { Route as LayoutItemsImport } from './routes/_layout/items'
-import { Route as LayoutAdminImport } from './routes/_layout/admin'
+import { Route as DashboardSettingsImport } from './routes/dashboard/settings'
+import { Route as DashboardItemsImport } from './routes/dashboard/items'
+import { Route as DashboardAdminImport } from './routes/dashboard/admin'
+import { Route as LayoutSignupImport } from './routes/_layout/signup'
+import { Route as LayoutResetPasswordImport } from './routes/_layout/reset-password'
+import { Route as LayoutRecoverPasswordImport } from './routes/_layout/recover-password'
+import { Route as LayoutLoginImport } from './routes/_layout/login'
 
 // Create/Update Routes
 
-const SignupRoute = SignupImport.update({
-  path: '/signup',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ResetPasswordRoute = ResetPasswordImport.update({
-  path: '/reset-password',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const RecoverPasswordRoute = RecoverPasswordImport.update({
-  path: '/recover-password',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginRoute = LoginImport.update({
-  path: '/login',
+const DashboardRoute = DashboardImport.update({
+  path: '/dashboard',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -48,23 +35,48 @@ const LayoutRoute = LayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DashboardIndexRoute = DashboardIndexImport.update({
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 const LayoutIndexRoute = LayoutIndexImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutSettingsRoute = LayoutSettingsImport.update({
+const DashboardSettingsRoute = DashboardSettingsImport.update({
   path: '/settings',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => DashboardRoute,
 } as any)
 
-const LayoutItemsRoute = LayoutItemsImport.update({
+const DashboardItemsRoute = DashboardItemsImport.update({
   path: '/items',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardAdminRoute = DashboardAdminImport.update({
+  path: '/admin',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const LayoutSignupRoute = LayoutSignupImport.update({
+  path: '/signup',
   getParentRoute: () => LayoutRoute,
 } as any)
 
-const LayoutAdminRoute = LayoutAdminImport.update({
-  path: '/admin',
+const LayoutResetPasswordRoute = LayoutResetPasswordImport.update({
+  path: '/reset-password',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutRecoverPasswordRoute = LayoutRecoverPasswordImport.update({
+  path: '/recover-password',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutLoginRoute = LayoutLoginImport.update({
+  path: '/login',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -76,37 +88,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      preLoaderRoute: typeof LoginImport
+    '/dashboard': {
+      preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
     }
-    '/recover-password': {
-      preLoaderRoute: typeof RecoverPasswordImport
-      parentRoute: typeof rootRoute
-    }
-    '/reset-password': {
-      preLoaderRoute: typeof ResetPasswordImport
-      parentRoute: typeof rootRoute
-    }
-    '/signup': {
-      preLoaderRoute: typeof SignupImport
-      parentRoute: typeof rootRoute
-    }
-    '/_layout/admin': {
-      preLoaderRoute: typeof LayoutAdminImport
+    '/_layout/login': {
+      preLoaderRoute: typeof LayoutLoginImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/items': {
-      preLoaderRoute: typeof LayoutItemsImport
+    '/_layout/recover-password': {
+      preLoaderRoute: typeof LayoutRecoverPasswordImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/settings': {
-      preLoaderRoute: typeof LayoutSettingsImport
+    '/_layout/reset-password': {
+      preLoaderRoute: typeof LayoutResetPasswordImport
       parentRoute: typeof LayoutImport
+    }
+    '/_layout/signup': {
+      preLoaderRoute: typeof LayoutSignupImport
+      parentRoute: typeof LayoutImport
+    }
+    '/dashboard/admin': {
+      preLoaderRoute: typeof DashboardAdminImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/items': {
+      preLoaderRoute: typeof DashboardItemsImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/settings': {
+      preLoaderRoute: typeof DashboardSettingsImport
+      parentRoute: typeof DashboardImport
     }
     '/_layout/': {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
+    }
+    '/dashboard/': {
+      preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof DashboardImport
     }
   }
 }
@@ -115,15 +135,18 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
-    LayoutAdminRoute,
-    LayoutItemsRoute,
-    LayoutSettingsRoute,
+    LayoutLoginRoute,
+    LayoutRecoverPasswordRoute,
+    LayoutResetPasswordRoute,
+    LayoutSignupRoute,
     LayoutIndexRoute,
   ]),
-  LoginRoute,
-  RecoverPasswordRoute,
-  ResetPasswordRoute,
-  SignupRoute,
+  DashboardRoute.addChildren([
+    DashboardAdminRoute,
+    DashboardItemsRoute,
+    DashboardSettingsRoute,
+    DashboardIndexRoute,
+  ]),
 ])
 
 /* prettier-ignore-end */
